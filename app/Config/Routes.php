@@ -39,31 +39,31 @@ $routes->set404Override();
 // route since we don't have to scan directories.
 $routes->get('/', 'Home::index');
 
-$routes->group('mapel', ['filter'=>'isLoggedIn'],function(RouteCollection $routes){
-    $routes->get('/', 'MapelController::index');
-    $routes->post('/', 'MapelController::store');
-    $routes->patch('/', 'MapelController::update');
-    $routes->delete('/', 'MapelController::delete');
-    $routes->get('(:num)', 'MapelController::show/$1');
-    $routes->get('all', 'MapelController::all');
+$routes->group('/siswa/login',['filter'=>'authSiswa'],  function(RouteCollection $routes){
+    $routes->get('lupa', 'SiswaController:viewLupaPasswordsiswa');
+    $routes->get('/', 'SiswaController::viewLoginsiswa');;
+    $routes->post('/', 'SiswaController::loginsiswa');
+    $routes->patch('/', 'SiswaController::lupaPasswordsiswa');
+    
+});
+$routes->delete('/siswa/login', 'SiswaController::logoutsiswa');
+
+$routes->group('siswa',['filter'=>'masukSIS'],function(RouteCollection $routes){
+    $routes->get('/', 'SiswaController::index');
+    $routes->post('/', 'SiswaController::store');
+    $routes->patch('/', 'SiswaController::update');
+    $routes->delete('/', 'SiswaController::delete');
+    $routes->get('(:num)', 'SiswaController::show/$1');
+    $routes->get('all', 'SiswaController::all');
 });
 
-$routes->group('kehadiranguru', ['filter'=>'isLoggedIn'], function(RouteCollection $routes){
-    $routes->get('/', 'KehadiranGuruController::index');
-    $routes->post('/', 'KehadiranGuruController::store');
-    $routes->patch('/', 'KehadiranGuruController::update');
-    $routes->delete('/', 'KehadiranGuruController::delete');
-    $routes->get('(:num)', 'KehadiranGuruController::show/$1');
-    $routes->get('all', 'KehadiranGuruController::all');
-});
-
-$routes->group('jadwal', ['filter'=>'masukSIS'],function(RouteCollection $routes){
-    $routes->get('/', 'JadwalController::index');
-    $routes->post('/', 'JadwalController::store');
-    $routes->patch('/', 'JadwalController::update');
-    $routes->delete('/', 'JadwalController::delete');
-    $routes->get('(:num)', 'JadwalController::show/$1');
-    $routes->get('all', 'JadwalController::all');
+$routes->group('kelassiswa',['filter'=>'masukSIS'], function(RouteCollection $routes){
+    $routes->get('/', 'KelasSiswaController::index');
+    $routes->post('/', 'KelasSiswaController::store');
+    $routes->patch('/', 'KelasSiswaController::update');
+    $routes->delete('/', 'KelasSiswaController::delete');
+    $routes->get('(:num)', 'KelasSiswaController::show/$1');
+    $routes->get('all', 'KelasSiswaController::all');
 });
 
 /*

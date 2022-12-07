@@ -4,10 +4,10 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class JadwalModel extends Model
+class KelassiswaModel extends Model
 {
     protected $DBGroup          = 'default';
-    protected $table            = 'jadwal';
+    protected $table            = 'kelas_siswa';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
@@ -40,17 +40,17 @@ class JadwalModel extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    public static function view(){
-        $view = (new JadwalModel())
-        ->select("jadwal.*, kelas.kelas, kelas.tingkat, mapel.mapel, pegawai.nama_depan, pegawai.nama_belakang as pegawai")
-                ->join('kelas', 'jadwal.kelas_id=kelas.id', 'left')
-                ->join('mapel', 'jadwal.mapel_id=mapel.id', 'left')
-                ->join('pegawai', 'pegawai.id=jadwal.pegawai_id', 'left')
-     
+    static function view(){
+        $view = (new KelassiswaModel())
+        ->select('kelas_siswa.*, kelas.kelas,kelas.tingkat, siswa.nis, siswa.nama_depan,
+        siswa.gender')
+                ->join('kelas', 'kelas.id=kelas_id')
+                ->join('siswa', 'siswa.id=siswa_id')
                 ->builder();
 
-        $r = db_connect()->newQuery()->fromSubquery($view, 'tbl');
-        $r->table = 'tbl';
-        return $r;
+                $r = db_connect()->newQuery()->fromSubquery($view, 'tbl');
+                $r->table = 'tbl';
+                return $r;
     }
+
 }
