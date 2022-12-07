@@ -2,13 +2,12 @@
 
 namespace App\Models;
 
-use App\Database\Migrations\KehadiranGuru;
 use CodeIgniter\Model;
 
-class KehadiranguruModel extends Model
+class SiswaModel extends Model
 {
     protected $DBGroup          = 'default';
-    protected $table            = 'kehadiran_guru';
+    protected $table            = 'siswa';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
@@ -18,7 +17,7 @@ class KehadiranguruModel extends Model
     protected $allowedFields    = [];
 
     // Dates
-    protected $useTimestamps = false;
+    protected $useTimestamps = true;
     protected $dateFormat    = 'datetime';
     protected $createdField  = 'created_at';
     protected $updatedField  = 'updated_at';
@@ -42,16 +41,13 @@ class KehadiranguruModel extends Model
     protected $afterDelete    = [];
 
     static function view(){
-        $view = (new KehadiranguruModel())
-        ->select('kehadiran_guru.*, pegawai.nama_depan, 
-                 pegawai.nama_belakang, jadwal.hari,')
-                ->join('pegawai', 'pegawai.id=pegawai_id')
-                ->join('jadwal', 'jadwal.id=jadwal_id')
-            
-                          ->builder();
+        $view =  (new SiswaModel())
+        ->select('siswa.*, kelas.kelas, kelas.tingkat')
+                ->join('kelas', 'kelas.id=kelas_id')
+                ->builder();
 
-        $r = db_connect()->newQuery()->fromSubquery($view, 'tbl');
-        $r->table = 'tbl';
-        return $r;
+                $r = db_connect()->newQuery()->fromSubquery($view, 'tbl');
+                $r->table = 'tbl';
+                return $r;
     }
 }
