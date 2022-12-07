@@ -39,31 +39,96 @@ $routes->set404Override();
 // route since we don't have to scan directories.
 $routes->get('/', 'Home::index');
 
-$routes->group('/siswa/login',['filter'=>'authSiswa'],  function(RouteCollection $routes){
-    $routes->get('lupa', 'SiswaController:viewLupaPasswordsiswa');
-    $routes->get('/', 'SiswaController::viewLoginsiswa');;
-    $routes->post('/', 'SiswaController::loginsiswa');
-    $routes->patch('/', 'SiswaController::lupaPasswordsiswa');
+$routes->group('/login', ['filter'=>'CekLoggedIn'], function(RouteCollection $routes){
+    $routes->get('lupa', 'PegawaiController:viewLupaPassword');
+    $routes->get('/', 'PegawaiController::viewLogin');;
+    $routes->post('/', 'PegawaiController::login');
+    $routes->patch('/', 'PegawaiController::lupaPassword');
     
 });
-$routes->delete('/siswa/login', 'SiswaController::logoutsiswa');
+$routes->delete('login', 'PegawaiController::logout');
 
-$routes->group('siswa',['filter'=>'masukSIS'],function(RouteCollection $routes){
-    $routes->get('/', 'SiswaController::index');
-    $routes->post('/', 'SiswaController::store');
-    $routes->patch('/', 'SiswaController::update');
-    $routes->delete('/', 'SiswaController::delete');
-    $routes->get('(:num)', 'SiswaController::show/$1');
-    $routes->get('all', 'SiswaController::all');
+$routes->group('pegawai', ['filter'=>'isLoggedIn'],function(RouteCollection $routes){
+    $routes->get('/', 'PegawaiController::index');
+    $routes->post('/', 'PegawaiController::store');
+    $routes->patch('/', 'PegawaiController::update');
+    $routes->delete('/', 'PegawaiController::delete');
+    $routes->get('(:num)/berkas.png', 'PegawaiController::berkas/$1');
+    $routes->get('(:num)', 'PegawaiController::show/$1');
+    $routes->get('all', 'PegawaiController::all');
+
 });
 
-$routes->group('kelassiswa',['filter'=>'masukSIS'], function(RouteCollection $routes){
-    $routes->get('/', 'KelasSiswaController::index');
-    $routes->post('/', 'KelasSiswaController::store');
-    $routes->patch('/', 'KelasSiswaController::update');
-    $routes->delete('/', 'KelasSiswaController::delete');
-    $routes->get('(:num)', 'KelasSiswaController::show/$1');
-    $routes->get('all', 'KelasSiswaController::all');
+$routes->group('pegawai/rincianpenilaian',['filter'=>'isLoggedIn'], function(RouteCollection $routes){
+    $routes->get('/', 'PRincianPenilaianController::index');
+    $routes->post('/', 'PRincianPenilaianController::store');
+    $routes->patch('/', 'PRincianPenilaianController::update');
+    $routes->delete('/', 'PRincianPenilaianController::delete');
+    $routes->get('(:num)', 'PRincianPenilaianController::show/$1');
+    $routes->get('all', 'PRincianPenilaianController::all');
+});
+
+$routes->group('pegawai/jadwal',['filter'=>'isLoggedIn'], function(RouteCollection $routes){
+    $routes->get('/', 'PJadwalController::index');
+    $routes->post('/', 'PJadwalController::store');
+    $routes->patch('/', 'PJadwalController::update');
+    $routes->delete('/', 'PJadwalController::delete');
+    $routes->get('(:num)', 'PJadwalController::show/$1');
+    $routes->get('all', 'PJadwalController::all');
+});
+
+$routes->group('pegawai/siswa',['filter'=>'isLoggedIn'], function(RouteCollection $routes){
+    $routes->get('/', 'PSiswaController::index');
+    $routes->post('/', 'PSiswaController::store');
+    $routes->patch('/', 'PSiswaController::update');
+    $routes->delete('/', 'PSiswaController::delete');
+    $routes->get('(:num)/berkas.png', 'PSiswaController::berkas/$1');
+    $routes->get('(:num)', 'PSiswaController::show/$1');
+    $routes->get('all', 'PSiswaController::all');
+});
+$routes->group('pegawai/kelassiswa',['filter'=>'isLoggedIn'], function(RouteCollection $routes){
+    $routes->get('/', 'PKelasSiswaController::index');
+    $routes->post('/', 'PKelasSiswaController::store');
+    $routes->patch('/', 'PKelasSiswaController::update');
+    $routes->delete('/', 'PKelasSiswaController::delete');
+    $routes->get('(:num)', 'PKelasSiswaController::show/$1');
+    $routes->get('all', 'PKelasSiswaController::all');
+});
+
+$routes->group('bagian', ['filter'=>'isLoggedIn'], function(RouteCollection $routes){
+    $routes->get('/', 'BagianController::index');
+    $routes->post('/', 'BagianController::store');
+    $routes->patch('/', 'BagianController::update');
+    $routes->delete('/', 'BagianController::delete');
+    $routes->get('(:num)', 'BagianController::show/$1');
+    $routes->get('all', 'BagianController::all');
+});
+
+$routes->group('mapel', ['filter'=>'isLoggedIn'],function(RouteCollection $routes){
+    $routes->get('/', 'MapelController::index');
+    $routes->post('/', 'MapelController::store');
+    $routes->patch('/', 'MapelController::update');
+    $routes->delete('/', 'MapelController::delete');
+    $routes->get('(:num)', 'MapelController::show/$1');
+    $routes->get('all', 'MapelController::all');
+});
+
+$routes->group('kehadiranguru', ['filter'=>'isLoggedIn'], function(RouteCollection $routes){
+    $routes->get('/', 'KehadiranGuruController::index');
+    $routes->post('/', 'KehadiranGuruController::store');
+    $routes->patch('/', 'KehadiranGuruController::update');
+    $routes->delete('/', 'KehadiranGuruController::delete');
+    $routes->get('(:num)', 'KehadiranGuruController::show/$1');
+    $routes->get('all', 'KehadiranGuruController::all');
+});
+
+$routes->group('jadwal', ['filter'=>'masukSIS'],function(RouteCollection $routes){
+    $routes->get('/', 'JadwalController::index');
+    $routes->post('/', 'JadwalController::store');
+    $routes->patch('/', 'JadwalController::update');
+    $routes->delete('/', 'JadwalController::delete');
+    $routes->get('(:num)', 'JadwalController::show/$1');
+    $routes->get('all', 'JadwalController::all');
 });
 
 /*
