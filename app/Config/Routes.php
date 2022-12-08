@@ -131,6 +131,38 @@ $routes->group('jadwal', ['filter'=>'masukSIS'],function(RouteCollection $routes
     $routes->get('all', 'JadwalController::all');
 });
 
+//eva/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+$routes->group('kehadiransiswa', ['filter'=>'isLoggedIn'], function(RouteCollection $routes){
+    $routes->get('/', 'KehadiranSiswaController::index');
+    $routes->post('/', 'KehadiranSiswaController::store');
+    $routes->patch('/', 'KehadiranSiswaController::update');
+    $routes->delete('/', 'KehadiranSiswaController::delete');
+    $routes->get('(:num)', 'KehadiranSiswaController::show/$1');
+    $routes->get('all', 'KehadiranSiswaController::all');
+});
+
+$routes->group('penilaian', ['filter'=>'isLoggedIn'],function(RouteCollection $routes){
+    $routes->get('/', 'PenilaianController::index');
+    $routes->post('/', 'PenilaianController::store');
+    $routes->patch('/', 'PenilaianController::update');
+    $routes->delete('/', 'PenilaianController::delete');
+    $routes->get('(:num)', 'PenilaianController::show/$1');
+    $routes->get('all', 'PenilaianController::all');
+});
+
+$routes->group('rincianpenilaian',['filter'=>'masukSIS'], function(RouteCollection $routes){
+    $routes->get('/', 'RincianPenilaianController::index');
+    $routes->post('/', 'RincianPenilaianController::store');
+    $routes->patch('/', 'RincianPenilaianController::update');
+    $routes->delete('/', 'RincianPenilaianController::delete');
+    $routes->get('(:num)', 'RincianPenilaianController::show/$1');
+    $routes->get('all', 'RincianPenilaianController::all');
+});
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////
 /*
  * --------------------------------------------------------------------
  * Additional Routing
